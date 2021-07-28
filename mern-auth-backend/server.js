@@ -29,5 +29,17 @@ app.use(bodyParser.json());
 app.use("/users",require("./routes/auth"));
 
 
+
+// Server production assets
+
+if(process.env.NODE_ENV === "production")
+{
+    app.use(express.static(path.join("mern-auth/build")));
+    app.get("*",(req,res) => {
+        res.sendFile(path.resolve(__dirname,"mern-auth","build","index.html"));
+    });
+}
+
+
 app.listen(PORT,
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`));
